@@ -47,7 +47,7 @@
     in
     {
       # Standalone home-manager configuration for non-NixOS Linux
-      homeConfigurations."hussainsultan@lets-pop" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."george@lets-pop" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
           config.allowUnfree = true;
@@ -56,8 +56,8 @@
         modules = [
           ./home.nix
           {
-            home.username = "hussainsultan";
-            home.homeDirectory = "/home/hussainsultan";
+            home.username = "george";
+            home.homeDirectory = "/home/george";
           }
         ];
       };
