@@ -36,9 +36,9 @@ else ifeq ($(shell test -f /etc/NIXOS && echo nixos),nixos)
 else
 	@echo "Rebuilding home-manager configuration..."
 	@if command -v home-manager >/dev/null 2>&1; then \
-		home-manager switch --flake $(DOTFILES_DIR)#$(USER)@$(HOSTNAME); \
+		home-manager switch --flake $(DOTFILES_DIR)#$(USER)@$(FLAKE_CONFIG); \
 	else \
-		nix run home-manager/master -- switch --flake $(DOTFILES_DIR)#$(USER)@$(HOSTNAME); \
+		nix run home-manager/master -- switch --flake $(DOTFILES_DIR)#$(USER)@$(FLAKE_CONFIG); \
 	fi
 endif
 
