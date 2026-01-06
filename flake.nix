@@ -32,7 +32,7 @@
             home-manager.useUserPackages = true;
             # Enable backup for files managed by Home Manager (e.g., .aerospace.toml)
             home-manager.backupFileExtension = ".bak";
-            home-manager.users.hussainsultan = import ./home.nix;
+            home-manager.users.ghoersti = import ./home.nix;
             # Enable mac-app-util for all users
             home-manager.sharedModules = [
               mac-app-util.homeManagerModules.default
@@ -71,7 +71,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = ".bak";
-            home-manager.users.hussainsultan = import ./home.nix;
+            home-manager.users.george = import ./home.nix;
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [ claude-code.overlays.default ];
           }

@@ -14,7 +14,7 @@
   nix.settings = {
     experimental-features = "nix-command flakes";
 
-    trusted-users = [ "root" "hussainsultan" ];
+    trusted-users = [ "root" "ghoersti" ];
 
     substituters = [
       "https://cache.nixos.org/"
@@ -34,7 +34,7 @@
   programs.zsh.enable = true;
 
   # Set primary user for user-specific system defaults
-  system.primaryUser = "hussainsultan";
+  system.primaryUser = "ghoersti";
 
   # macOS Dock customization
   system.defaults.dock = {
@@ -74,8 +74,8 @@
   system.configurationRevision = null;
   system.stateVersion = 6;
 
-  users.users.hussainsultan = {
-    name = "hussainsultan";
-    home = "/Users/hussainsultan";
+  users.users.ghoersti = {
+    name = "ghoersti";
+    home = "/Users/ghoersti";
   };
 }
