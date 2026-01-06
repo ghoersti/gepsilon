@@ -12,7 +12,7 @@ The repository uses a multi-target flake structure:
 
 - **flake.nix**: Main entry point defining all system configurations
   - `darwinConfigurations.default`: Generic macOS configuration (works with any hostname)
-  - `homeConfigurations."hussainsultan@lets-pop"`: Standalone home-manager for non-NixOS Linux
+  - `homeConfigurations."george@lets-pop"`: Standalone home-manager for non-NixOS Linux
   - `nixosConfigurations."lets-pop"`: Full NixOS system configuration
 
 - **configuration.nix**: System-level configuration (nix-darwin/NixOS)

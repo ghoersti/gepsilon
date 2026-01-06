@@ -1,12 +1,7 @@
 Host lets-pop
   Hostname 100.83.189.74
-  User hussainsultan
-  ForwardAgent yes
-
-Host lets-mac
-  Hostname 100.127.149.87
-  User hussainsultan
+  User george
   ForwardAgent yes
 
 Host *
-	IdentityAgent /Users/hussainsultan/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+	IdentityAgent /Users/ghoersti/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
