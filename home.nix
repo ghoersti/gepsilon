@@ -283,6 +283,9 @@ in
     # Linux-specific packages
     nix-ld
     alacritty
+    colima
+    docker
+    docker-compose
   ];
 
   # Enable font configuration
