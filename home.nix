@@ -214,6 +214,11 @@ in
       size = 10000;
       path = "${config.xdg.dataHome}/zsh/history";
     };
+
+    initExtra = ''
+      # Disable flow control (XON/XOFF) to allow C-s for tmux prefix
+      stty -ixon
+    '';
   };
 
   programs.starship = {
