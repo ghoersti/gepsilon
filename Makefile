@@ -11,7 +11,7 @@ else
 	FLAKE_CONFIG := $(shell hostname)
 endif
 
-.PHONY: help install update clean backup diff
+.PHONY: help install update update-claude clean backup diff
 
 help:
 	@echo "Available commands:"
@@ -41,6 +41,11 @@ else
 		nix run home-manager/master -- switch -b backup --flake $(DOTFILES_DIR)#$(USER)@$(FLAKE_CONFIG); \
 	fi
 endif
+
+update-claude:
+	@echo "Updating claude-code to the latest packaged release..."
+	nix flake update claude-code
+	@$(MAKE) rebuild
 
 clean:
 	@echo "Cleaning up old generations..."

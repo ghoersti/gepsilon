@@ -4,92 +4,46 @@ This cheat sheet documents all keyboard shortcuts configured in this dotfiles re
 
 ---
 
-## macOS - AeroSpace Window Manager
+## macOS - Rectangle Window Manager (Spectacle Shortcuts)
 
-AeroSpace is a tiling window manager for macOS. All shortcuts use `Alt` (Option) as the modifier.
+Rectangle is a window snapping manager for macOS using Spectacle-compatible shortcuts.
 
-### Window Focus Navigation
+### Window Positioning
 | Shortcut | Description |
 |----------|-------------|
-| `Alt+H` | Move focus to the left window |
-| `Alt+J` | Move focus to the window below |
-| `Alt+K` | Move focus to the window above |
-| `Alt+L` | Move focus to the right window |
-| `Alt+Shift+Left` | Move focus to the left window (wraps around workspace) |
-| `Alt+Shift+Right` | Move focus to the right window (wraps around workspace) |
+| `⌥⌘←` | Left half |
+| `⌥⌘→` | Right half |
+| `⌥⌘↑` | Top half |
+| `⌥⌘↓` | Bottom half |
 
-### Window Movement
+### Corners
 | Shortcut | Description |
 |----------|-------------|
-| `Alt+Shift+H` | Move current window left |
-| `Alt+Shift+J` | Move current window down |
-| `Alt+Shift+K` | Move current window up |
-| `Alt+Shift+L` | Move current window right |
+| `⌃⌘←` | Top left quarter |
+| `⌃⌘→` | Top right quarter |
+| `⌃⇧⌘←` | Bottom left quarter |
+| `⌃⇧⌘→` | Bottom right quarter |
 
-### Workspace Switching
+### Sizing
 | Shortcut | Description |
 |----------|-------------|
-| `Alt+1` through `Alt+9` | Switch to workspace 1-9 |
-| `Alt+B` | Switch to workspace B (Browser - Chrome, Safari, Arc) |
-| `Alt+D` | Switch to workspace D |
-| `Alt+E` | Switch to workspace E |
-| `Alt+N` | Switch to workspace N (Notes - Obsidian) |
-| `Alt+P` | Switch to workspace P |
-| `Alt+T` | Switch to workspace T (Terminal - Alacritty, WezTerm) |
-| `Alt+V` | Switch to workspace V |
-| `Alt+Tab` | Toggle between current and previous workspace |
+| `⌥⌘F` | Fullscreen (maximize) |
+| `⌥⌘C` | Center window |
+| `⌃⌥⌘F` | Almost maximize (90%) |
+| `⌃⌥→` | Make larger |
+| `⌃⌥←` | Make smaller |
 
-### Move Window to Workspace
+### Thirds (repeat shortcut to cycle)
 | Shortcut | Description |
 |----------|-------------|
-| `Alt+Shift+1` through `Alt+Shift+9` | Move window to workspace 1-9 |
-| `Alt+Shift+B` | Move window to workspace B |
-| `Alt+Shift+D` | Move window to workspace D |
-| `Alt+Shift+E` | Move window to workspace E |
-| `Alt+Shift+N` | Move window to workspace N |
-| `Alt+Shift+P` | Move window to workspace P |
-| `Alt+Shift+T` | Move window to workspace T |
-| `Alt+Shift+V` | Move window to workspace V |
+| `⌥⌘←` (repeat) | Cycle: left half → left third → left two-thirds |
+| `⌥⌘→` (repeat) | Cycle: right half → right third → right two-thirds |
 
-### Layout Management
+### Display Management
 | Shortcut | Description |
 |----------|-------------|
-| `Alt+/` | Toggle between horizontal and vertical tiles layout |
-| `Alt+,` | Toggle accordion layout (horizontal/vertical) |
-| `Alt+Shift+F` | Toggle fullscreen for current window |
-| `Ctrl+Alt+R` | Balance window sizes in current workspace |
-
-### Modes
-| Shortcut | Description |
-|----------|-------------|
-| `Alt+;` | Enter service mode (for advanced operations) |
-| `Alt+\` | Enter resize mode |
-
-### Resize Mode (after pressing `Alt+\`)
-| Shortcut | Description |
-|----------|-------------|
-| `H` | Shrink window smartly |
-| `J` | Shrink window smartly |
-| `K` | Grow window smartly |
-| `L` | Grow window smartly |
-| `Shift+H` | Decrease window width |
-| `Shift+J` | Increase window height |
-| `Shift+K` | Decrease window height |
-| `Shift+L` | Increase window width |
-| `B` | Balance all window sizes |
-| `Enter` or `Esc` | Exit resize mode |
-
-### Service Mode (after pressing `Alt+;`)
-| Shortcut | Description |
-|----------|-------------|
-| `Esc` | Reload AeroSpace config and exit service mode |
-| `R` | Flatten workspace tree (reorganize windows) |
-| `F` | Toggle floating/tiling for current window |
-| `Backspace` | Close all windows except current |
-| `H` | Join current window with left window |
-| `J` | Join current window with window below |
-| `K` | Join current window with window above |
-| `L` | Join current window with right window |
+| `⌃⌥⌘→` | Move to next display |
+| `⌃⌥⌘←` | Move to previous display |
 
 ---
 
@@ -107,7 +61,7 @@ Tmux is a terminal multiplexer. The prefix key is `Ctrl+S` (replaces default `Ct
 | Shortcut | Description |
 |----------|-------------|
 | `Prefix H` | Select left pane |
-| `Prefix J` | Select pane below |
+| `Prefix J` | Select pane below |left
 | `Prefix K` | Select pane above |
 | `Prefix L` | Select right pane |
 
@@ -322,16 +276,9 @@ These are command-line shortcuts available in both zsh (macOS) and bash (Linux).
 ## Notes
 
 ### Platform-Specific Features
-- **macOS only**: AeroSpace window manager, zsh as default shell
+- **macOS only**: Rectangle window manager (Spectacle shortcuts), zsh as default shell
 - **Linux only**: bash as default shell
 - **Both platforms**: tmux, neovim, and all associated shortcuts work identically
-
-### Automatic App Workspace Assignment (macOS)
-Some applications automatically move to specific workspaces when opened:
-- **Workspace B**: Arc Browser, Chrome, Safari
-- **Workspace T**: Alacritty, WezTerm (terminals)
-- **Workspace N**: Obsidian (notes)
-- **Workspace 4**: Slack
 
 ### Vi Mode in Tmux Copy Mode
 When you enter tmux copy mode (Prefix+[), you can use vi-style navigation keys since `keyMode = "vi"` is enabled.

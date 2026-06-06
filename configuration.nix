@@ -71,6 +71,20 @@
     AppleInterfaceStyle = "Dark";
   };
 
+  # Homebrew cask packages (GUI apps not available in nixpkgs)
+  homebrew = {
+    enable = true;
+    casks = [
+      "rectangle"
+      "secretive"
+    ];
+    onActivation = {
+      cleanup = "none";
+      autoUpdate = true;
+      upgrade = true;
+    };
+  };
+
   system.configurationRevision = null;
   system.stateVersion = 6;
 

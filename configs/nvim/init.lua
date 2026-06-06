@@ -64,18 +64,7 @@ local plugins = {
     end,
   },
 
-  -- Treesitter for syntax highlighting
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "lua", "rust", "python", "javascript", "typescript", "html", "css" },
-        highlight = { enable = true },
-        indent = { enable = true },
-      })
-    end,
-  },
+  -- Note: nvim-treesitter is now provided by Nix configuration
 
   -- Telescope fuzzy finder
   {
@@ -449,37 +438,6 @@ local plugins = {
       })
     end,
   },
-  {
-    "frankroeder/parrot.nvim",
-    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
-    -- optionally include "folke/noice.nvim" or "rcarriga/nvim-notify" for beautiful notifications
-    config = function()
-      require("parrot").setup {
-        -- Providers must be explicitly set up to make them available.
-        providers = {
-          openai = {
-            name = "openai",
-            api_key = os.getenv "OPENAI_API_KEY",
-            endpoint = "https://api.openai.com/v1/chat/completions",
-            params = {
-              chat = { temperature = 1.1, top_p = 1 },
-              command = { temperature = 1.1, top_p = 1 },
-            },
-            topic = {
-              model = "gpt-4.1-nano",
-              params = { max_completion_tokens = 64 },
-            },
-            models ={
-              "gpt-4o",
-              "o4-mini",
-              "gpt-4.1-nano",
-            }
-          },
-        },
-      }
-    end,
-  },
-
   -- Autopairs
   {
     "windwp/nvim-autopairs",
@@ -627,6 +585,17 @@ local plugins = {
 
 -- Setup plugins
 require("lazy").setup(plugins)
+
+-- Configure Treesitter (provided by Nix)
+-- Wrap in pcall to handle gracefully if not available
+local ok, configs = pcall(require, "nvim-treesitter.configs")
+if ok then
+  configs.setup({
+    -- Languages are managed by Nix configuration
+    highlight = { enable = true },
+    indent = { enable = true },
+  })
+end
 
 -- Key mappings
 local keymap = vim.keymap.set

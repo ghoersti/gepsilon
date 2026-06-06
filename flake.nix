@@ -30,7 +30,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # Enable backup for files managed by Home Manager (e.g., .aerospace.toml)
+            # Enable backup for files managed by Home Manager
             home-manager.backupFileExtension = ".bak";
             home-manager.users.ghoersti = import ./home.nix;
             # Enable mac-app-util for all users

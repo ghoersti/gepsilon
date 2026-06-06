@@ -2,6 +2,24 @@
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  agentsview = pkgs.stdenv.mkDerivation {
+    pname = "agentsview";
+    version = "0.13.0";
+    src = pkgs.fetchurl {
+      url = "https://github.com/wesm/agentsview/releases/download/v0.13.0/agentsview_0.13.0_darwin_arm64.tar.gz";
+      hash = "sha256-y+lP/QxLh+kyJrQEh2ouW7ZhGI1CGmIiyFfEWk40f38=";
+    };
+    unpackPhase = ''
+      mkdir -p src
+      tar xzf $src -C src
+    '';
+    sourceRoot = "src";
+    installPhase = ''
+      mkdir -p $out/bin
+      cp agentsview $out/bin/
+      chmod +x $out/bin/agentsview
+    '';
+  };
 in
 {
   # These will be overridden by flake configuration
@@ -164,6 +182,15 @@ in
       git-commit-empty-initial-commit = "git commit --allow-empty -m 'initial commit'";
       gb = "git branch";
       glog = "git log --oneline --graph --decorate";
+
+      # UV Python aliases
+      py = "uv run --no-project python";
+      py312 = "uv run --python 3.12 --no-project python";
+      py313 = "uv run --python 3.13 --no-project python";
+      py314 = "uv run --python 3.14 --no-project python";
+      ipy = "uv run --with ipython --no-project ipython";
+      pydata = "uv run --with ipython,numpy,pandas,matplotlib,scipy,scikit-learn --no-project ipython";
+      jupyter = "uv run --with jupyter --no-project jupyter lab";
     };
     historySize = 10000;
     historyFile = "${config.home.homeDirectory}/.bash_history";
@@ -208,6 +235,15 @@ in
       git-commit-empty-initial-commit = "git commit --allow-empty -m 'initial commit'";
       gb = "git branch";
       glog = "git log --oneline --graph --decorate";
+
+      # UV Python aliases
+      py = "uv run --no-project python";
+      py312 = "uv run --python 3.12 --no-project python";
+      py313 = "uv run --python 3.13 --no-project python";
+      py314 = "uv run --python 3.14 --no-project python";
+      ipy = "uv run --with ipython --no-project ipython";
+      pydata = "uv run --with ipython,numpy,pandas,matplotlib,scipy,scikit-learn --no-project ipython";
+      jupyter = "uv run --with jupyter --no-project jupyter lab";
     };
 
     history = {
@@ -237,6 +273,23 @@ in
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      (nvim-treesitter.withPlugins (plugins: with plugins; [
+        bash
+        c
+        css
+        html
+        javascript
+        json
+        lua
+        markdown
+        nix
+        python
+        rust
+        typescript
+        yaml
+      ]))
+    ];
     extraLuaConfig = builtins.readFile ./configs/nvim/init.lua;
   };
 
@@ -246,6 +299,7 @@ in
     tmux
     watch
     uv
+    cmake
     eza
     fd
     ripgrep
@@ -274,6 +328,7 @@ in
   ] ++ lib.optionals isDarwin [
     # macOS-specific packages
     # GUI apps are handled by mac-app-util for Spotlight/Launchpad integration
+    agentsview
     alacritty
     google-chrome
     obsidian
@@ -283,7 +338,6 @@ in
     tailscale
     colima
     docker
-    aerospace
   ] ++ lib.optionals isLinux [
     # Linux-specific packages
     nix-ld
@@ -299,39 +353,29 @@ in
   # Alacritty configuration (TOML format)
   xdg.configFile."alacritty/alacritty.toml".source = ./configs/alacritty/alacritty.toml;
 
-  # macOS-specific configuration for AeroSpace
-  home.file = lib.mkIf isDarwin {
-    "Applications/AeroSpace.app".source = "${pkgs.aerospace}/Applications/AeroSpace.app";
+  # Rectangle window manager: Spectacle shortcut configuration
+  # Rectangle is installed via Homebrew cask in configuration.nix
+  targets.darwin.defaults = lib.mkIf isDarwin {
+    "com.knollsoft.Rectangle" = {
+      alternateDefaultShortcuts = false;  # Use Spectacle shortcuts
+      subsequentExecutionMode = 0;        # Spectacle-style halves→thirds cycling
+      launchOnLogin = true;
+    };
+  };
 
-    "Library/LaunchAgents/com.jakehilborn.aerospace.plist".text = ''
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>Label</key>
-        <string>com.jakehilborn.aerospace</string>
-        <key>ProgramArguments</key>
-        <array>
-          <!-- Launch the AeroSpace GUI server from the home Applications symlink -->
-          <string>${config.home.homeDirectory}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace</string>
-        </array>
-        <key>RunAtLoad</key>
-        <true/>
-        <key>KeepAlive</key>
-        <true/>
-      </dict>
-      </plist>
-    '';
-
-    ".aerospace.toml".text = builtins.readFile ./configs/aerospace/aerospace.toml;
+  # agentsview: local web viewer for AI agent sessions (Claude Code, Codex, etc.)
+  launchd.agents.agentsview = lib.mkIf isDarwin {
+    enable = true;
+    config = {
+      ProgramArguments = [ "${agentsview}/bin/agentsview" "serve" ];
+      KeepAlive = true;
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/agentsview.log";
+      StandardErrorPath = "/tmp/agentsview.error.log";
+    };
   };
 
   home.activation = lib.mkIf isDarwin {
-    setupAerospace = ''
-      /bin/launchctl unload "${config.home.homeDirectory}/Library/LaunchAgents/com.jakehilborn.aerospace.plist" 2>/dev/null || true
-      /bin/launchctl load   "${config.home.homeDirectory}/Library/LaunchAgents/com.jakehilborn.aerospace.plist"
-    '';
-
     # Link Nix-installed fonts to ~/Library/Fonts so GUI apps can find them
     linkFonts = lib.hm.dag.entryAfter ["writeBoundary"] ''
       mkdir -p "${config.home.homeDirectory}/Library/Fonts/Nix"
